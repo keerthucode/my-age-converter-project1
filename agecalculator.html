@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Age Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 350px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="date"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      width: 100%;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .result span {
+      font-weight: bold;
+      color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Age Calculator</h1>
+    <input type="date" id="date-input">
+    <br>
+    <button onclick="ageCalculate()">Calculate Age</button>
+
+    <div class="result">
+      <p><span id="years">-</span> Years</p>
+      <p><span id="months">-</span> Months</p>
+      <p><span id="days">-</span> Days</p>
+    </div>
+  </div>
+
+  <script>
+    const months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    function leapchecker(year) {
+      if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
+        months[1] = 29;
+      } else {
+        months[1] = 28;
+      }
+    }
+
+    function ageCalculate() {
+      let today = new Date();
+      let inputDate = new Date(document.getElementById("date-input").value);
+
+      if (!document.getElementById("date-input").value) {
+        alert("Please select a birth date!");
+        return;
+      }
+
+      let birthDetails = {
+        date: inputDate.getDate(),
+        month: inputDate.getMonth() + 1,
+        year: inputDate.getFullYear()
+      };
+
+      let currentYear = today.getFullYear();
+      let currentMonth = today.getMonth() + 1;
+      let currentDate = today.getDate();
+
+      leapchecker(currentYear);
+
+      if (
+        birthDetails.year > currentYear ||
+        (birthDetails.month > currentMonth && birthDetails.year === currentYear) ||
+        (birthDetails.date > currentDate &&
+          birthDetails.month === currentMonth &&
+          birthDetails.year === currentYear)
+      ) {
+        alert("Not yet born!");
+        displayResult("-", "-", "-");
+        return;
+      }
+
+      let birthYear = currentYear - birthDetails.year;
+      let birthMonth, birthDate;
+
+      if (currentMonth >= birthDetails.month) {
+        birthMonth = currentMonth - birthDetails.month;
+      } else {
+        birthYear--;
+        birthMonth = 12 + currentMonth - birthDetails.month;
+      }
+
+      if (currentDate >= birthDetails.date) {
+        birthDate = currentDate - birthDetails.date;
+      } else {
+        birthMonth--;
+        let days = months[(currentMonth - 2 + 12) % 12];
+        birthDate = days + currentDate - birthDetails.date;
+        if (birthMonth < 0) {
+          birthMonth = 11;
+          birthYear--;
+        }
+      }
+
+      displayResult(birthDate, birthMonth, birthYear);
+    }
+
+    function displayResult(bDate, bMonth, bYear) {
+      document.getElementById("years").textContent = bYear;
+      document.getElementById("months").textContent = bMonth;
+      document.getElementById("days").textContent = bDate;
+    }
+  </script>
+</body>
+</html>
