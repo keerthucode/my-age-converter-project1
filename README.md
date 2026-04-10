@@ -40,8 +40,11 @@ index.html
 https://keerthucode.github.io/my-age-converter-project1/
 ---
 👤 Author
+
 NAIR KEERTHANA
+
 GitHub: https://github.com/keerthucode
 ---
 📄 License
+
 This project is open-source and free to use.
