@@ -31,6 +31,8 @@ index.html
 3. View your calculated age instantly
 
 📸 Screenshots
+<img width="560" height="518" alt="{27C61E60-2A3A-46B0-A189-E3A3379ADC6D}" src="https://github.com/user-attachments/assets/763d2ee5-35af-4305-9f6c-9d5844f49eb8" />
+
 
 🌐 Live Demo
 
